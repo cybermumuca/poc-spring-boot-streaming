@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>poc-spring-boot-streaming</title>
+    <style>
+      /* Estilo básico para o player */
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        background-color: #f4f4f4;
+      }
+      .player-container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        width: 70%;
+      }
+      audio {
+        width: 100%;
+        margin-top: 20px;
+      }
+    </style>
+</head>
+<body>
+  <div class="player-container">
+    <h2>MP3 Stream Player</h2>
+    <audio id="audioPlayer" controls>
+      <source src="http://localhost:8080/music/stream" type="audio/mpeg">
+      Seu navegador não suporta a reprodução de áudio.
+    </audio>
+    <p id="status">Carregando áudio...</p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const audioPlayer = document.getElementById('audioPlayer');
+      const status = document.getElementById('status');
+
+      audioPlayer.addEventListener('canplaythrough', function () {
+        status.textContent = "Áudio carregado e pronto para reprodução";
+      });
+
+      audioPlayer.addEventListener('error', function () {
+        status.textContent = "Erro ao carregar o áudio";
+      });
+
+      // async function fetchAudio() {
+      //   try {
+      //     const response = await fetch('http://localhost:8080/music/stream', {
+      //       method: 'GET',
+      //       headers: {
+      //         'Content-Type': 'audio/mpeg'
+      //       }
+      //     });
+      //
+      //     if (response.ok) {
+      //       const blob = await response.blob();
+      //       const audioUrl = URL.createObjectURL(blob);
+      //
+      //       audioPlayer.src = audioUrl;
+      //       status.textContent = "Áudio carregado";
+      //     } else {
+      //       console.error('Erro ao buscar o áudio');
+      //       status.textContent = "Erro ao carregar o áudio";
+      //     }
+      //   } catch (error) {
+      //     console.error('Erro ao consumir o endpoint:', error);
+      //     status.textContent = "Erro ao carregar o áudio";
+      //   }
+      // }
+      //
+      // fetchAudio();
+    });
+  </script>
+
+</body>
+</html>
